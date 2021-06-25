@@ -20,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
             android:background="#B69FD6"
@@ -47,7 +47,8 @@
             <EditText
                 android:id="@+id/mUserNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/textbox"
                 android:ems="10"
                 android:hint="Full Name"
@@ -77,19 +78,19 @@
                 android:padding="10dp" />
 
             <Button
-                android:id="@+id/mLoginBtn"
+                android:id="@+id/mCreateBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_btn"
-                android:text="Login" />
+                android:text="Create An Account" />
 
             <Button
-                android:id="@+id/mCreateBtn"
+                android:id="@+id/mLoginBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/create_btn"
-                android:text="Create An Account" />
+                android:text="Already Have An Account?" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
