@@ -3,6 +3,7 @@ package com.example.msclone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,13 +11,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseFirestore mFirebaseFireStore;
 
     private EditText mNameEditText;
     private EditText mEmailEditText;
@@ -35,6 +39,7 @@ public class Signup extends AppCompatActivity {
         mCreateBtn = findViewById(R.id.mCreateBtn);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseFireStore = FirebaseFirestore.getInstance();
 
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,11 +49,22 @@ public class Signup extends AppCompatActivity {
                 email = mEmailEditText.getText().toString();
                 password = mPasswordEditText.getText().toString();
 
+                User user = new User();
+                user.setName(userName);
+                user.setEmail(email);
+                user.setPassword(password);
+
                 mFirebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Signup.this,"Account is Created", Toast.LENGTH_LONG).show();
+                            mFirebaseFireStore.collection("users")
+                                    .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    startActivity( new Intent(Signup.this,Login.class));
+                                }
+                            });
                         } else {
                             Toast.makeText(Signup.this,task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         }
