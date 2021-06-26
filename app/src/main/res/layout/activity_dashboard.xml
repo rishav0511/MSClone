@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#C1C0C0"
+        app:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu"
         tools:layout_editor_absoluteX="0dp" />
