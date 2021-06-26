@@ -55,4 +55,9 @@ public class Dashboard extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
