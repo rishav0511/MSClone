@@ -62,7 +62,13 @@ public class Signup extends AppCompatActivity {
                                     .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    startActivity( new Intent(Signup.this,Login.class));
+                                    Intent intent = new Intent(Signup.this,Profilepic.class);
+                                    intent.putExtra("username",userName);
+                                    intent.putExtra("email",email);
+                                    intent.putExtra("password",password);
+                                    String uid = mFirebaseAuth.getUid();
+                                    intent.putExtra("uid",uid);
+                                    startActivity(intent);
                                 }
                             });
                         } else {

@@ -1,10 +1,34 @@
 package com.example.msclone;
 
 public class User {
-    private String name,email,password;
+    private String name,email,password,uid,profileImage;
 
     public User(){
 
+    }
+
+    public User(String name, String email, String password, String uid, String profileImage) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.uid = uid;
+        this.profileImage = profileImage;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public String getName() {

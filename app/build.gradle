@@ -6,6 +6,9 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    buildFeatures{
+        viewBinding true
+    }
     defaultConfig {
         applicationId "com.example.msclone"
         minSdkVersion 23
@@ -39,10 +42,14 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
     implementation ('org.jitsi.react:jitsi-meet-sdk:2.+') { transitive = true }
 }
 apply plugin: 'com.google.gms.google-services'
