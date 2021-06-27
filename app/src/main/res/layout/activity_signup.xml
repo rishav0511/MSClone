@@ -53,6 +53,7 @@
                 android:ems="10"
                 android:hint="Full Name"
                 android:inputType="textPersonName"
+                android:paddingStart="15dp"
                 android:singleLine="true" />
 
             <EditText
@@ -63,7 +64,8 @@
                 android:ems="10"
                 android:hint="Email Address"
                 android:inputType="textEmailAddress"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:paddingStart="15dp" />
 
             <EditText
                 android:id="@+id/mPasswordEditText"
@@ -75,7 +77,8 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:paddingStart="15dp" />
 
             <Button
                 android:id="@+id/mCreateBtn"

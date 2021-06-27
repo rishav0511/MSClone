@@ -49,6 +49,10 @@ public class Signup extends AppCompatActivity {
                 email = mEmailEditText.getText().toString();
                 password = mPasswordEditText.getText().toString();
 
+                if(userName.isEmpty() || email.isEmpty() || password.isEmpty()){
+                    Toast.makeText(Signup.this,"Enter All Fields", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 User user = new User();
                 user.setName(userName);
                 user.setEmail(email);
