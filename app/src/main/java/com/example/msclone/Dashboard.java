@@ -62,7 +62,6 @@ public class Dashboard extends AppCompatActivity {
                         logoutTrans.commit();
                         Toast.makeText(Dashboard.this,"Logout Selected", Toast.LENGTH_SHORT).show();
                         break;
-
                 }
                 return true;
             }

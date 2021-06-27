@@ -7,6 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import org.jitsi.meet.sdk.JitsiMeet;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,51 +23,59 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private EditText mSecretCode;
+    private Button mJoinBtn;
+    private Button mShareBtn;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
+        mSecretCode = root.findViewById(R.id.mSecretCode);
+        mJoinBtn = root.findViewById(R.id.mJoinBtn);
+        mShareBtn = root.findViewById(R.id.mShareBtn);
+
+        URL serverUrl;
+
+        try {
+            serverUrl = new URL("https://meet.jit.si");
+            JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
+                    .setServerURL(serverUrl)
+                    .setWelcomePageEnabled(false)
+                    .build();
+            JitsiMeet.setDefaultConferenceOptions(options);
+        } catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+
+
+        mJoinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JitsiMeetConferenceOptions options
+                        = new JitsiMeetConferenceOptions.Builder()
+                        .setRoom(mSecretCode.getText().toString())
+                        .setWelcomePageEnabled(false)
+                        .build();
+                JitsiMeetActivity.launch(getActivity(), options);
+            }
+        });
+        return root;
+//        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }
