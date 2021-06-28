@@ -1,4 +1,4 @@
-package com.example.msclone;
+package com.example.msclone.Models;
 
 public class User {
     private String name,email,password,uid,profileImage;

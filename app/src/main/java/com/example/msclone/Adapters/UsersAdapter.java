@@ -1,4 +1,4 @@
-package com.example.msclone;
+package com.example.msclone.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.msclone.ChatActivity;
+import com.example.msclone.Models.User;
+import com.example.msclone.R;
 import com.example.msclone.databinding.RowConversationBinding;
 
 import java.util.ArrayList;
@@ -40,7 +43,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,ChatActivity.class);
+                Intent intent = new Intent(mContext, ChatActivity.class);
                 intent.putExtra("name",user.getName());
                 intent.putExtra("uid",user.getUid());
                 mContext.startActivity(intent);

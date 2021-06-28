@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 
 
+import com.example.msclone.Models.User;
 import com.example.msclone.databinding.ActivityProfilepicBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.msclone.Adapters.UsersAdapter;
+import com.example.msclone.Models.User;
 import com.example.msclone.databinding.FragmentChatBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
