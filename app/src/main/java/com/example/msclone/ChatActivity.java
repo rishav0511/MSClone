@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -79,6 +80,13 @@ public class ChatActivity extends AppCompatActivity {
 
                 String randomKey = mFirebaseDatabase.getReference().push().getKey();
 
+                HashMap<String,Object> lastMsgObj = new HashMap<>();
+                lastMsgObj.put("lastMsg",message.getMessage());
+                lastMsgObj.put("lastMsgTime",date.getTime());
+
+                mFirebaseDatabase.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
+                mFirebaseDatabase.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
+
                 mFirebaseDatabase.getReference().child("chats")
                         .child(senderRoom)
                         .child("messages")
@@ -96,6 +104,13 @@ public class ChatActivity extends AppCompatActivity {
 
                             }
                         });
+
+                        HashMap<String,Object> lastMsgObj = new HashMap<>();
+                        lastMsgObj.put("lastMsg",message.getMessage());
+                        lastMsgObj.put("lastMsgTime",date.getTime());
+
+                        mFirebaseDatabase.getReference().child("chats").child(senderRoom).updateChildren(lastMsgObj);
+                        mFirebaseDatabase.getReference().child("chats").child(receiverRoom).updateChildren(lastMsgObj);
                     }
                 });
             }
