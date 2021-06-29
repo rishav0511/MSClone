@@ -35,9 +35,6 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         messages = new ArrayList<>();
-        adapter = new MessagesAdapter(this,messages);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerView.setAdapter(adapter);
 
         String name = getIntent().getStringExtra("name");
         String receiverUid = getIntent().getStringExtra("uid");
@@ -45,6 +42,10 @@ public class ChatActivity extends AppCompatActivity {
 
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
+
+        adapter = new MessagesAdapter(this,messages,senderRoom,receiverRoom);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setAdapter(adapter);
 
         mFirebaseDatabase =FirebaseDatabase.getInstance();
         mFirebaseDatabase.getReference().child("chats")
@@ -56,6 +57,7 @@ public class ChatActivity extends AppCompatActivity {
                         messages.clear();
                         for(DataSnapshot snapshot1 : snapshot.getChildren()){
                             Message message = snapshot1.getValue(Message.class);
+                            message.setMessageId(snapshot1.getKey());
                             messages.add(message);
                         }
                         adapter.notifyDataSetChanged();
@@ -74,17 +76,20 @@ public class ChatActivity extends AppCompatActivity {
                 Date date = new Date();
                 Message message = new Message(messageTxt,senderUid,date.getTime());
                 binding.messageBox.setText("");
+
+                String randomKey = mFirebaseDatabase.getReference().push().getKey();
+
                 mFirebaseDatabase.getReference().child("chats")
                         .child(senderRoom)
                         .child("messages")
-                        .push()
+                        .child(randomKey)
                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         mFirebaseDatabase.getReference().child("chats")
                                 .child(receiverRoom)
                                 .child("messages")
-                                .push()
+                                .child(randomKey)
                                 .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

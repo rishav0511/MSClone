@@ -48,13 +48,11 @@ public class Dashboard extends AppCompatActivity {
                         FragmentTransaction homeTrans = getSupportFragmentManager().beginTransaction();
                         homeTrans.replace(R.id.content,new HomeFragment());
                         homeTrans.commit();
-                        Toast.makeText(Dashboard.this,"Home Selected", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.chat:
                         FragmentTransaction chatTrans = getSupportFragmentManager().beginTransaction();
                         chatTrans.replace(R.id.content,new ChatFragment());
                         chatTrans.commit();
-                        Toast.makeText(Dashboard.this,"Chat Selected", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.logout:
                         FragmentTransaction logoutTrans = getSupportFragmentManager().beginTransaction();
@@ -66,35 +64,6 @@ public class Dashboard extends AppCompatActivity {
                 return true;
             }
         });
-//        mSecretCode = findViewById(R.id.mSecretCode);
-//        mJoinBtn = findViewById(R.id.mJoinBtn);
-//        mShareBtn = findViewById(R.id.mShareBtn);
-//
-//        URL serverUrl;
-//
-//        try {
-//            serverUrl = new URL("https://meet.jit.si");
-//            JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
-//                    .setServerURL(serverUrl)
-//                    .setWelcomePageEnabled(false)
-//                    .build();
-//            JitsiMeet.setDefaultConferenceOptions(options);
-//        } catch (MalformedURLException e){
-//            e.printStackTrace();
-//        }
-
-
-//        mJoinBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                JitsiMeetConferenceOptions options
-//                        = new JitsiMeetConferenceOptions.Builder()
-//                        .setRoom(mSecretCode.getText().toString())
-//                        .setWelcomePageEnabled(false)
-//                        .build();
-//                JitsiMeetActivity.launch(Dashboard.this,options);
-//            }
-//        });
     }
 
     @Override
