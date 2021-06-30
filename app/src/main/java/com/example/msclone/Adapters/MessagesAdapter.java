@@ -130,6 +130,14 @@ public class MessagesAdapter extends RecyclerView.Adapter{
                     return false;
                 }
             });
+            
+            viewHolder.binding.sentImage.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popup.onTouch(v,event);
+                    return false;
+                }
+            });
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
             if(message.getMessage().equals("Photo")){
@@ -152,6 +160,14 @@ public class MessagesAdapter extends RecyclerView.Adapter{
             }
 
             viewHolder.binding.message.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popup.onTouch(v,event);
+                    return false;
+                }
+            });
+
+            viewHolder.binding.recievedImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popup.onTouch(v,event);
