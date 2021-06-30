@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.msclone.Models.Message;
 import com.example.msclone.R;
 import com.example.msclone.databinding.ItemRecievedBinding;
@@ -102,6 +103,15 @@ public class MessagesAdapter extends RecyclerView.Adapter{
 
         if(holder.getClass() == SentViewHolder.class){
             SentViewHolder viewHolder = (SentViewHolder)holder;
+            if(message.getMessage().equals("Photo")){
+                viewHolder.binding.sentImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(mContext)
+                        .load(message.getImageUrl())
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(viewHolder.binding.sentImage);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
 
             if(message.getFeeling()>=0)
@@ -122,6 +132,14 @@ public class MessagesAdapter extends RecyclerView.Adapter{
             });
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
+            if(message.getMessage().equals("Photo")){
+                viewHolder.binding.recievedImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(mContext)
+                        .load(message.getImageUrl())
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(viewHolder.binding.recievedImage);
+            }
             viewHolder.binding.message.setText(message.getMessage());
 
             if(message.getFeeling()>=0)
