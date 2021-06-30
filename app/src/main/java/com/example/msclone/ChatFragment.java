@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.example.msclone.Adapters.UsersAdapter;
 import com.example.msclone.Models.User;
 import com.example.msclone.databinding.FragmentChatBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -56,14 +57,17 @@ public class ChatFragment extends Fragment {
         usersAdapter = new UsersAdapter(getActivity(),users);
 
         binding.recyclerView.setAdapter(usersAdapter);
+        binding.recyclerView.showShimmerAdapter();
         mFirebaseDatabase.getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
                     User user = snapshot1.getValue(User.class);
-                    users.add(user);
+                    if(!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
+                        users.add(user);
                 }
+                binding.recyclerView.hideShimmerAdapter();
                 usersAdapter.notifyDataSetChanged();
             }
 
