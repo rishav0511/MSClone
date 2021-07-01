@@ -81,4 +81,22 @@ public class ChatFragment extends Fragment {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String presentUid = FirebaseAuth.getInstance().getUid();
+        mFirebaseDatabase.getReference().child("presence")
+                .child(presentUid)
+                .setValue("Online");
+    }
+
+//    @Override
+//    public void onStop() {
+//        String presentUid = FirebaseAuth.getInstance().getUid();
+//        mFirebaseDatabase.getReference().child("presence")
+//                .child(presentUid)
+//                .setValue("Offline");
+//        super.onStop();
+//    }
 }

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.msclone.Adapters.MessagesAdapter;
 import com.example.msclone.Models.Message;
 import com.example.msclone.databinding.ActivityChatBinding;
@@ -51,6 +52,9 @@ public class ChatActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
+        mFirebaseStorage = FirebaseStorage.getInstance();
+        mFirebaseDatabase =FirebaseDatabase.getInstance();
+
         dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading Image..");
         dialog.setCancelable(false);
@@ -58,18 +62,48 @@ public class ChatActivity extends AppCompatActivity {
         messages = new ArrayList<>();
 
         String name = getIntent().getStringExtra("name");
+        String profile = getIntent().getStringExtra("image");
+
+        binding.name.setText(name);
+        Glide.with(ChatActivity.this)
+                .load(profile)
+                .placeholder(R.drawable.avatar)
+                .into(binding.profileimage);
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         receiverUid = getIntent().getStringExtra("uid");
         senderUid = FirebaseAuth.getInstance().getUid();
 
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
 
+        mFirebaseDatabase.getReference().child("presence").child(receiverUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String status = snapshot.getValue(String.class);
+                    if(!status.isEmpty()) {
+                        binding.status.setText(status);
+                        binding.status.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         adapter = new MessagesAdapter(this,messages,senderRoom,receiverRoom);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
-        mFirebaseStorage = FirebaseStorage.getInstance();
-        mFirebaseDatabase =FirebaseDatabase.getInstance();
         mFirebaseDatabase.getReference().child("chats")
                 .child(senderRoom)
                 .child("messages")
@@ -221,6 +255,24 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String presentUid = FirebaseAuth.getInstance().getUid();
+        mFirebaseDatabase.getReference().child("presence")
+                .child(presentUid)
+                .setValue("Online");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        String presentUid = FirebaseAuth.getInstance().getUid();
+        mFirebaseDatabase.getReference().child("presence")
+                .child(presentUid)
+                .setValue("Offline");
     }
 
     @Override
