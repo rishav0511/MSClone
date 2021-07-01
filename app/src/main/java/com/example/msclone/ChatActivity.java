@@ -49,6 +49,8 @@ public class ChatActivity extends AppCompatActivity {
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+
         dialog = new ProgressDialog(this);
         dialog.setMessage("Uploading Image..");
         dialog.setCancelable(false);
@@ -144,9 +146,9 @@ public class ChatActivity extends AppCompatActivity {
                 startActivityForResult(intent,25);
             }
         });
-
-        getSupportActionBar().setTitle(name);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setTitle(name);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
