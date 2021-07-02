@@ -91,12 +91,13 @@ public class ChatFragment extends Fragment {
                 .setValue("Online");
     }
 
-//    @Override
-//    public void onStop() {
-//        String presentUid = FirebaseAuth.getInstance().getUid();
-//        mFirebaseDatabase.getReference().child("presence")
-//                .child(presentUid)
-//                .setValue("Offline");
-//        super.onStop();
-//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        String presentUid = FirebaseAuth.getInstance().getUid();
+        mFirebaseDatabase.getReference().child("presence")
+                .child(presentUid)
+                .setValue("Offline");
+    }
+
 }

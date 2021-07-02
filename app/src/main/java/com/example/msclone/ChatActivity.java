@@ -9,6 +9,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -88,8 +90,12 @@ public class ChatActivity extends AppCompatActivity {
                 if(snapshot.exists()){
                     String status = snapshot.getValue(String.class);
                     if(!status.isEmpty()) {
-                        binding.status.setText(status);
-                        binding.status.setVisibility(View.VISIBLE);
+                        if(status.equals("Offline")){
+                            binding.status.setVisibility(View.GONE);
+                        } else {
+                            binding.status.setText(status);
+                            binding.status.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -178,6 +184,26 @@ public class ChatActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent,25);
+            }
+        });
+
+        binding.messageBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().trim().length()>0)
+                    binding.sendButton.setEnabled(true);
+                else
+                    binding.sendButton.setEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -269,6 +295,15 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        String presentUid = FirebaseAuth.getInstance().getUid();
+        mFirebaseDatabase.getReference().child("presence")
+                .child(presentUid)
+                .setValue("Offline");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         String presentUid = FirebaseAuth.getInstance().getUid();
         mFirebaseDatabase.getReference().child("presence")
                 .child(presentUid)
