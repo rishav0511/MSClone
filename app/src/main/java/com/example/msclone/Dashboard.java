@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,6 +74,7 @@ public class Dashboard extends AppCompatActivity {
                 Toast.makeText(this,"search clicked",Toast.LENGTH_SHORT).show();;
                 break;
             case R.id.groups:
+                startActivity(new Intent(Dashboard.this,TeamActivity.class));
                 Toast.makeText(this,"groups clicked",Toast.LENGTH_SHORT).show();;
                 break;
             case R.id.invite:
