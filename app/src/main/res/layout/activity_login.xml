@@ -49,7 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textbox"
-                android:drawablePadding="20dp"
+                android:drawableLeft="@drawable/email"
+                android:drawablePadding="10dp"
                 android:ems="10"
                 android:hint="Email Address"
                 android:inputType="textEmailAddress"
@@ -63,11 +64,23 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/textbox"
+                android:drawableLeft="@drawable/padlock"
+                android:drawablePadding="10dp"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:paddingStart="15dp" />
+
+            <TextView
+                android:id="@+id/forgot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Forgot Password"
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/mLoginBtn"

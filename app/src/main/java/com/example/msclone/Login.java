@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +25,7 @@ public class Login extends AppCompatActivity {
 
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
+    private TextView mForgotpassword;
     private Button mLoginBtn;
     private Button mCreateBtn;
     @Override
@@ -34,6 +37,7 @@ public class Login extends AppCompatActivity {
 
         mEmailEditText = findViewById(R.id.mEmailEditText);
         mPasswordEditText = findViewById(R.id.mPasswordEditText);
+        mForgotpassword = findViewById(R.id.forgot);
         mLoginBtn = findViewById(R.id.mLoginBtn);
         mCreateBtn = findViewById(R.id.mCreateBtn);
 
@@ -77,6 +81,31 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(Login.this,Signup.class));
             }
         });
+
+        mForgotpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                String emailAddress = mEmailEditText.getText().toString();
+                if(emailAddress.isEmpty())
+                {
+                    Toast.makeText(Login.this,"Enter Email address..", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                auth.sendPasswordResetEmail(emailAddress)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Login.this,"Email sent", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(Login.this,task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
     }
 
     @Override

@@ -25,7 +25,6 @@ import java.net.URL;
 public class HomeFragment extends Fragment {
     private EditText mSecretCode;
     private Button mJoinBtn;
-    private Button mShareBtn;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -48,7 +47,6 @@ public class HomeFragment extends Fragment {
         ViewGroup root = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
         mSecretCode = root.findViewById(R.id.mSecretCode);
         mJoinBtn = root.findViewById(R.id.mJoinBtn);
-        mShareBtn = root.findViewById(R.id.mShareBtn);
 
         URL serverUrl;
 

@@ -58,14 +58,6 @@
                         android:text="Join"
                         app:cornerRadius="10dp" />
 
-                    <Button
-                        android:id="@+id/mShareBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:text="Share"
-                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
             </LinearLayout>
