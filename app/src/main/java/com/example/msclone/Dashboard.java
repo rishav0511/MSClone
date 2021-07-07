@@ -66,13 +66,6 @@ public class Dashboard extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.search:
-                Toast.makeText(this,"search clicked",Toast.LENGTH_SHORT).show();;
-                break;
-            case R.id.groups:
-                startActivity(new Intent(Dashboard.this,TeamActivity.class));
-                Toast.makeText(this,"groups clicked",Toast.LENGTH_SHORT).show();;
-                break;
             case R.id.invite:
                 Toast.makeText(this,"invite clicked",Toast.LENGTH_SHORT).show();;
                 break;
