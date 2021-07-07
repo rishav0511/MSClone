@@ -11,14 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.msclone.Models.Message;
+import com.example.msclone.Models.User;
 import com.example.msclone.R;
+import com.example.msclone.databinding.GroupItemRecievedBinding;
+import com.example.msclone.databinding.GroupItemSentBinding;
 import com.example.msclone.databinding.ItemRecievedBinding;
 import com.example.msclone.databinding.ItemSentBinding;
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,10 +45,10 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType==ITEM_SENT){
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_sent,parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.group_item_sent,parent,false);
             return new SentViewHolder(view);
         } else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_recieved,parent,false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.group_item_recieved,parent,false);
             return new ReceiverViewHolder(view);
         }
     }
@@ -99,14 +105,30 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
         if(holder.getClass() == SentViewHolder.class){
             SentViewHolder viewHolder = (SentViewHolder)holder;
             if(message.getMessage().equals("photo")){
-                viewHolder.binding.sentImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
                 Glide.with(mContext)
                         .load(message.getImageUrl())
                         .placeholder(R.drawable.image_placeholder)
-                        .into(viewHolder.binding.sentImage);
+                        .into(viewHolder.binding.image);
             }
+            FirebaseDatabase.getInstance()
+                    .getReference().child("users")
+                    .child(message.getSenderId())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                User user = snapshot.getValue(User.class);
+                                viewHolder.binding.name.setText("@" + user.getName());
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
             viewHolder.binding.message.setText(message.getMessage());
 
             if(message.getFeeling()>=0)
@@ -126,7 +148,7 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
                 }
             });
             
-            viewHolder.binding.sentImage.setOnTouchListener(new View.OnTouchListener() {
+            viewHolder.binding.image.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popup.onTouch(v,event);
@@ -136,13 +158,31 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
             if(message.getMessage().equals("Photo")){
-                viewHolder.binding.recievedImage.setVisibility(View.VISIBLE);
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
                 Glide.with(mContext)
                         .load(message.getImageUrl())
                         .placeholder(R.drawable.image_placeholder)
-                        .into(viewHolder.binding.recievedImage);
+                        .into(viewHolder.binding.image);
             }
+            FirebaseDatabase.getInstance()
+                    .getReference().child("users")
+                    .child(message.getSenderId())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()) {
+                                User user = snapshot.getValue(User.class);
+                                viewHolder.binding.name.setText("@" + user.getName());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
             viewHolder.binding.message.setText(message.getMessage());
 
             if(message.getFeeling()>=0)
@@ -162,7 +202,7 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
                 }
             });
 
-            viewHolder.binding.recievedImage.setOnTouchListener(new View.OnTouchListener() {
+            viewHolder.binding.image.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popup.onTouch(v,event);
@@ -179,19 +219,19 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
 
     public class SentViewHolder extends RecyclerView.ViewHolder{
 
-        ItemSentBinding binding;
+        GroupItemSentBinding binding;
         public SentViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemSentBinding.bind(itemView);
+            binding = GroupItemSentBinding.bind(itemView);
         }
     }
 
     public class ReceiverViewHolder extends RecyclerView.ViewHolder{
 
-        ItemRecievedBinding binding;
+        GroupItemRecievedBinding binding;
         public ReceiverViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = ItemRecievedBinding.bind(itemView);
+            binding = GroupItemRecievedBinding.bind(itemView);
         }
     }
 }
