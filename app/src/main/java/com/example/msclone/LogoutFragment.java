@@ -1,5 +1,6 @@
 package com.example.msclone;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -58,7 +59,7 @@ public class LogoutFragment extends Fragment {
                     User user = snapshot1.getValue(User.class);
                     if(user.getUid().equals(FirebaseAuth.getInstance().getUid())) {
                         current = user;
-                        if(current.getProfileImage()!=null){
+                        if(current.getProfileImage()!=null) {
                             Glide.with(getContext()).load(current.getProfileImage())
                                     .placeholder(R.drawable.avatar)
                                     .into(binding.ProfileImage);
@@ -73,6 +74,7 @@ public class LogoutFragment extends Fragment {
 
             }
         });
+
 
         binding.yes.setOnClickListener(new View.OnClickListener() {
             @Override

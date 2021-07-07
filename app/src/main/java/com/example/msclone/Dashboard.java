@@ -47,11 +47,15 @@ public class Dashboard extends AppCompatActivity {
                         chatTrans.replace(R.id.content,new ChatFragment());
                         chatTrans.commit();
                         break;
+                    case R.id.common:
+                        FragmentTransaction commonTrans = getSupportFragmentManager().beginTransaction();
+                        commonTrans.replace(R.id.content,new CommonFragment());
+                        commonTrans.commit();
+                        break;
                     case R.id.logout:
                         FragmentTransaction logoutTrans = getSupportFragmentManager().beginTransaction();
                         logoutTrans.replace(R.id.content,new LogoutFragment());
                         logoutTrans.commit();
-                        Toast.makeText(Dashboard.this,"Logout Selected", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return true;

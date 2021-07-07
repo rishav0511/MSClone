@@ -10,6 +10,10 @@
         android:icon="@drawable/chat_box"
         android:title="Chat" />
     <item
+        android:id="@+id/common"
+        android:icon="@drawable/group"
+        android:title="Common" />
+    <item
         android:id="@+id/logout"
         android:icon="@drawable/exit"
         android:title="Logout" />
