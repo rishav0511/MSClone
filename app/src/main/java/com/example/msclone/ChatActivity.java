@@ -67,6 +67,8 @@ public class ChatActivity extends AppCompatActivity {
         String profile = getIntent().getStringExtra("image");
 
         binding.name.setText(name);
+
+        //Profile image
         Glide.with(ChatActivity.this)
                 .load(profile)
                 .placeholder(R.drawable.avatar)
@@ -78,12 +80,15 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //getting user's Uids
         receiverUid = getIntent().getStringExtra("uid");
         senderUid = FirebaseAuth.getInstance().getUid();
 
+        //for making rooms between 2 user
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
 
+        //status of user
         mFirebaseDatabase.getReference().child("presence").child(receiverUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,10 +111,12 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //Adapter
         adapter = new MessagesAdapter(this,messages,senderRoom,receiverRoom);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
+        //messages to adapter
         mFirebaseDatabase.getReference().child("chats")
                 .child(senderRoom)
                 .child("messages")
@@ -131,6 +138,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
+        //send message
         binding.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +149,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 String randomKey = mFirebaseDatabase.getReference().push().getKey();
 
+                //most recent message
                 HashMap<String,Object> lastMsgObj = new HashMap<>();
                 lastMsgObj.put("lastMsg",message.getMessage());
                 lastMsgObj.put("lastMsgTime",date.getTime());
@@ -177,6 +186,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //attaching photos
         binding.attachement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,6 +197,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //check if something has benn typed
         binding.messageBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -211,6 +222,7 @@ public class ChatActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    //for photos
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

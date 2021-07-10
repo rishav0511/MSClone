@@ -87,8 +87,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#E31414"
-                        android:text="Yes" />
+                        android:backgroundTint="#E31414"
+                        android:text="Yes"
+                        app:cornerRadius="15dp" />
 
                     <Button
                         android:id="@+id/no"
@@ -96,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:background="#4CAF50"
+                        android:backgroundTint="#4CAF50"
                         android:text="No"
                         app:cornerRadius="15dp" />
                 </LinearLayout>

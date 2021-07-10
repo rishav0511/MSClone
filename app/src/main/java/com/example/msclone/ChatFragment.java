@@ -56,8 +56,11 @@ public class ChatFragment extends Fragment {
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(getActivity(),users);
 
+        //attaching recycler view
         binding.recyclerView.setAdapter(usersAdapter);
         binding.recyclerView.showShimmerAdapter();
+
+        //inflating up users
         mFirebaseDatabase.getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

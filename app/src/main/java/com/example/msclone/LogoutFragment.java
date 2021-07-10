@@ -52,6 +52,7 @@ public class LogoutFragment extends Fragment {
         View view = binding.getRoot();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+        // setting up text fields
         mFirebaseDatabase.getReference().child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,6 +77,7 @@ public class LogoutFragment extends Fragment {
         });
 
 
+        //signing out
         binding.yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

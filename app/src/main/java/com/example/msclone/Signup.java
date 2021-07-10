@@ -50,11 +50,12 @@ public class Signup extends AppCompatActivity {
                 email = mEmailEditText.getText().toString();
                 password = mPasswordEditText.getText().toString();
 
+                //check if all filed are entered
                 if(userName.isEmpty() || email.isEmpty() || password.isEmpty()){
                     Toast.makeText(Signup.this,"Enter All Fields", Toast.LENGTH_LONG).show();
                     return;
                 }
-                User user = new User();
+                User user = new User();     //create new user
                 user.setName(userName);
                 user.setEmail(email);
                 user.setPassword(password);
@@ -67,6 +68,7 @@ public class Signup extends AppCompatActivity {
                                     .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    // if user successfully created go to set up profile pic
                                     Intent intent = new Intent(Signup.this,Profilepic.class);
                                     intent.putExtra("username",userName);
                                     intent.putExtra("email",email);

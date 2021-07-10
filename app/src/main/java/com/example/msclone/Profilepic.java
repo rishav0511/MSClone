@@ -56,6 +56,7 @@ public class Profilepic extends AppCompatActivity {
         mFirebaseStorage = FirebaseStorage.getInstance();
         mProfilePhotoStorageReference = mFirebaseStorage.getReference();
 
+        //for getting picture
         binding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,10 +68,12 @@ public class Profilepic extends AppCompatActivity {
         });
 
 
+        //uploading image to FirebaseStorage
         binding.continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.show();
+                //if image is selected
                 if(selectedImage!=null){
                     mProfilePhotoStorageReference = mProfilePhotoStorageReference.child("Profiles").child(mFirebaseAuth.getUid());
                     mProfilePhotoStorageReference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -103,7 +106,7 @@ public class Profilepic extends AppCompatActivity {
                             }
                         }
                     });
-                } else {
+                } else {                        //if image is not selected
                     String uid = mFirebaseAuth.getUid();
 
                     User user = new User (userName,email,password,uid,"No Image");
@@ -125,6 +128,7 @@ public class Profilepic extends AppCompatActivity {
         });
     }
 
+    //intent to get image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
 
         URL serverUrl;
 
+        //setting up jitsi
         try {
             serverUrl = new URL("https://meet.jit.si");
             JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment {
         }
 
 
+        //using Jitsi for meet
         mJoinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

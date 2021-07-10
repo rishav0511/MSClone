@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.mLoginBtn);
         mCreateBtn = findViewById(R.id.mCreateBtn);
 
+        //authStateLister
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -51,6 +52,8 @@ public class Login extends AppCompatActivity {
                 }
             }
         };
+
+        //login with FirebaseAuth
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        //Go to Signup Activity
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,12 +112,14 @@ public class Login extends AppCompatActivity {
 
     }
 
+    //attaching AuthstateListener
     @Override
     protected void onResume() {
         super.onResume();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
+    //detaching authstatelistener
     @Override
     protected void onPause() {
         super.onPause();

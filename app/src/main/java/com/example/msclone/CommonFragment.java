@@ -85,6 +85,7 @@ public class CommonFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
 
+        //messages to adapter
         mFirebaseDatabase.getReference().child("public")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -104,6 +105,7 @@ public class CommonFragment extends Fragment {
                     }
                 });
 
+        //messages send
         binding.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +120,7 @@ public class CommonFragment extends Fragment {
             }
         });
 
+        //sending photos
         binding.attachement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +134,7 @@ public class CommonFragment extends Fragment {
         return view;
     }
 
+    //photos for common group
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
