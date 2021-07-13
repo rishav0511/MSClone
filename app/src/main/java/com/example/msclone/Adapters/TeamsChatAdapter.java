@@ -157,7 +157,7 @@ public class TeamsChatAdapter extends RecyclerView.Adapter{
             });
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            if(message.getMessage().equals("Photo")){
+            if(message.getMessage().equals("photo")){
                 viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
                 Glide.with(mContext)
