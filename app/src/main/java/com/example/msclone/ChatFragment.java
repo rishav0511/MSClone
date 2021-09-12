@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,13 +12,16 @@ import androidx.fragment.app.Fragment;
 import com.example.msclone.Adapters.UsersAdapter;
 import com.example.msclone.Models.User;
 import com.example.msclone.databinding.FragmentChatBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +57,19 @@ public class ChatFragment extends Fragment {
         View view = binding.getRoot();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String token) {
+                        HashMap<String,Object>map = new HashMap<>();
+                        map.put("token",token);
+                        mFirebaseDatabase.getReference()
+                                .child("users")
+                                .child(FirebaseAuth.getInstance().getUid())
+                                .updateChildren(map);
+                        Toast.makeText(getContext(),token,Toast.LENGTH_SHORT).show();
+                    }
+                });
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(getActivity(),users);
 

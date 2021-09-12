@@ -1,7 +1,7 @@
 package com.example.msclone.Models;
 
 public class User {
-    private String name,email,password,uid,profileImage;
+    private String name,email,password,uid,profileImage,token;
 
     public User(){
 
@@ -53,5 +53,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -12,7 +12,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.msclone.Adapters.MessagesAdapter;
 import com.example.msclone.Models.Message;
@@ -29,10 +36,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -65,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
 
         String name = getIntent().getStringExtra("name");
         String profile = getIntent().getStringExtra("image");
+        String token = getIntent().getStringExtra("token");
 
         binding.name.setText(name);
 
@@ -171,7 +182,7 @@ public class ChatActivity extends AppCompatActivity {
                                 .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
+                                sendNotification(name,message.getMessage(),token);
                             }
                         });
 
@@ -222,6 +233,47 @@ public class ChatActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    void sendNotification(String name,String message,String token){
+        try {
+            RequestQueue queue = Volley.newRequestQueue(this);
+            String url = "https://fcm.googleapis.com/fcm/send";
+
+            JSONObject data = new JSONObject();
+            data.put("title",name);
+            data.put("body",message);
+
+            JSONObject notificationData = new JSONObject();
+            notificationData.put("notification",data);
+            notificationData.put("to",token);
+
+            JsonObjectRequest request = new JsonObjectRequest(url, notificationData, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+//                    Toast.makeText(ChatActivity.this,"success",Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(ChatActivity.this,error.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String,String>map = new HashMap<>();
+                    String key="Key=AAAAcd_YNrA:APA91bGBnSgtKFXuL0DPyW4IRH_24CwWjW8oxMQUdawQVqh16HekbrZZMDXVnRShjiE2h2jfFZGIWG13BGzc-NL5kFZrgulpXQY49PhW_5RpaiyT0IaL_-8gs_WMnxs7Dy-t6O1bBwfl";
+                    map.put("Authorization",key);
+                    map.put("Content-Type","application/json");
+                    return map;
+                }
+            };
+            queue.add(request);
+
+        } catch (Exception ex){
+
+        }
+
+
+    }
     //for photos
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
